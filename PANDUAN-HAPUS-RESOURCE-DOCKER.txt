@@ -1,0 +1,36 @@
+DOCKER LAB STUDIO — MEMBERSIHKAN RESOURCE DOCKER PROYEK
+=========================================================
+
+Gunakan HAPUS-SELURUH-DATA-DOCKER.bat jika ingin membersihkan resource runtime
+Docker Lab Studio setelah praktikum.
+
+CARA MENJALANKAN
+1. Pastikan seluruh isi ZIP sudah diekstrak ke folder yang sama.
+2. Buka Docker Desktop dan tunggu sampai Docker Engine aktif.
+3. Klik dua kali HAPUS-SELURUH-DATA-DOCKER.bat.
+4. Baca daftar resource yang akan dihapus.
+5. Ketik HAPUS saat diminta untuk mengonfirmasi. Selain itu, operasi dibatalkan.
+6. Tunggu sampai verifikasi akhir selesai.
+7. Untuk memulai praktik lagi, klik jalankan-sistem.bat.
+
+RESOURCE YANG DIHAPUS
+- Container Compose milik proyek ini.
+- Named volume Compose proyek, termasuk seluruh data MySQL di dalamnya.
+- Network Compose milik proyek.
+- Image aplikasi lokal yang dikelola Compose.
+- Proses dashboard controller yang dijalankan dari folder proyek ini.
+
+RESOURCE YANG DIPERTAHANKAN
+- Source code, compose.yaml, .env, laporan, screenshot, dan dokumentasi.
+- Docker Desktop.
+- Image dasar mysql:8.4.
+- Container, volume, network, dan image milik proyek Docker lain.
+
+CATATAN KEAMANAN
+- Penghapusan volume menghilangkan data database yang tersimpan di volume tersebut.
+- Skrip memakai docker compose down --volumes --rmi local --remove-orphans
+  dengan compose.yaml pada folder proyek, bukan perintah pembersihan global.
+- Jangan gunakan docker system prune -a --volumes karena perintah global dapat
+  menghapus resource proyek Docker lain.
+- Skrip tidak menghapus file .env dan tidak menyalakan ulang service setelah cleanup.
+- Jika Docker Engine tidak aktif, skrip berhenti tanpa mengklaim cleanup berhasil.

@@ -1,0 +1,28 @@
+DOCKER LAB STUDIO — MULAI DI SINI
+=================================
+
+1. Ekstrak ZIP ke folder biasa, misalnya C:\DockerLabStudio.
+2. Buka Docker Desktop dan tunggu sampai Engine aktif.
+3. Klik dua kali jalankan-sistem.bat.
+4. Tunggu build pertama selesai. Browser akan membuka dashboard di:
+   http://127.0.0.1:8765/
+5. Aplikasi mahasiswa tersedia di:
+   http://127.0.0.1:5000/
+6. Di Test Center, pilih tes individual atau Jalankan semua tes.
+7. Setelah tes selesai, unduh laporan HTML, CSV, atau JSON dari bagian Reports & evidence.
+8. Untuk membersihkan resource runtime proyek setelah praktikum, klik HAPUS-SELURUH-DATA-DOCKER.bat dan ketik HAPUS saat diminta. Data volume database akan dihapus; file proyek tetap ada.
+
+CATATAN PENTING
+- Koneksi internet mungkin dibutuhkan saat build pertama untuk mengunduh image dan dependensi.
+- File .env dibuat otomatis secara lokal. Jangan dibagikan.
+- Jalankan semua tes tidak menjalankan T06.
+- T06 / docker compose down -v menghapus SELURUH data pada volume database proyek. Gunakan hanya setelah data penting dicadangkan dan bukti persistensi sudah dikumpulkan.
+- Jika controller versi lama masih berjalan di port 8765, tutup jendela PowerShell controller lama sebelum memulai versi baru.
+- Tes end-to-end perlu dijalankan di Windows dengan Docker Desktop; screenshot pratinjau yang terpisah hanya contoh desain, bukan bukti runtime.
+
+Keterangan bukti: screenshot contoh di folder Bukti adalah visual simulasi untuk bahan belajar; caption laporan menyebutkan simulasi. Untuk bukti runtime aktual, ambil screenshot dari laptop setelah menjalankan tes.
+
+Lihat PANDUAN-HAPUS-RESOURCE-DOCKER.txt untuk detail resource yang dihapus dan dipertahankan.
+
+
+Jika startup gagal dengan error GetFullPath / Illegal characters in path, lihat PERBAIKAN-WINDOWS11-PATH.txt.

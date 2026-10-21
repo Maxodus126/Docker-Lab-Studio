@@ -1,0 +1,14 @@
+﻿check,status,detail
+BAT exists,PASS,Static source/package inspection; Windows runtime not executed.
+PowerShell helper exists,PASS,Static source/package inspection; Windows runtime not executed.
+Typed confirmation,PASS,Static source/package inspection; Windows runtime not executed.
+Compose-scoped cleanup,PASS,Static source/package inspection; Windows runtime not executed.
+Volume deletion included,PASS,Static source/package inspection; Windows runtime not executed.
+Local image cleanup included,PASS,Static source/package inspection; Windows runtime not executed.
+Orphan cleanup included,PASS,Static source/package inspection; Windows runtime not executed.
+No global prune commands,PASS,Static source/package inspection; Windows runtime not executed.
+Project name validated,PASS,Static source/package inspection; Windows runtime not executed.
+Controller stop is scoped,PASS,Static source/package inspection; Windows runtime not executed.
+Container verification included,PASS,Static source/package inspection; Windows runtime not executed.
+Volume verification included,PASS,Static source/package inspection; Windows runtime not executed.
+Network verification included,PASS,Static source/package inspection; Windows runtime not executed.

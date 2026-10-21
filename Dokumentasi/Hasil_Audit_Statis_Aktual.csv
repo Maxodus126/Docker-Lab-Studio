@@ -1,0 +1,71 @@
+﻿ID,Pemeriksaan,Status,Detail
+Q01,Berkas utama proyek,PASS,20/20 file wajib tersedia.
+Q02,File rahasia .env tidak disertakan,PASS,File .env lokal tidak ada di paket sumber.
+Q03,.env.example tersedia dan memakai placeholder,PASS,"Template environment memakai placeholder, bukan kredensial runtime."
+Q04,Sintaks Python aplikasi,PASS,app/app.py lolos parsing sintaks Python.
+Q05,Sintaks YAML Compose,PASS,compose.yaml dapat diparse dan memuat services.
+Q06,Service web dan db terpisah,PASS,Compose mendefinisikan service web dan db.
+Q07,Port Flask dibatasi ke loopback,PASS,Port web dipublikasikan hanya pada 127.0.0.1:5000.
+Q08,MySQL tidak dipublikasikan ke host,PASS,Service db tidak memiliki deklarasi ports pada host.
+Q09,Named volume MySQL,PASS,dbdata dipasang pada /var/lib/mysql dan dideklarasikan.
+Q10,Healthcheck MySQL,PASS,MySQL memiliki healthcheck dan web menunggu db sehat.
+Q11,Healthcheck Flask,PASS,Service web memiliki healthcheck ke endpoint /live.
+Q12,Image MySQL 8.4,PASS,Compose memakai image mysql:8.4.
+Q13,Image dasar Python slim,PASS,Dockerfile menggunakan python:3.12-slim.
+Q14,Container memakai user non-root,PASS,Aplikasi berjalan sebagai appuser non-root.
+Q15,Endpoint liveness,PASS,Endpoint /live tersedia.
+Q16,Endpoint readiness database,PASS,Endpoint /health membedakan database connected dan unavailable.
+Q17,CRUD mahasiswa,PASS,Endpoint tambah dan hapus mahasiswa tersedia.
+Q18,Validasi input kosong,PASS,Nama dan NIM kosong ditolak di server.
+Q19,Query SQL parameterized,PASS,"Insert menggunakan placeholder parameter, bukan interpolasi SQL."
+Q20,NIM unik dan handler duplikat,PASS,NIM unik ditetapkan pada DB dan IntegrityError ditangani.
+Q21,Retry koneksi MySQL,PASS,Inisialisasi database mencoba ulang koneksi.
+Q22,Mode debug dimatikan,PASS,Flask dijalankan dengan debug=False.
+Q23,Katalog tes T01–T10,PASS,Controller memuat 10 skenario tes.
+Q24,Mode semua tes melewati T06,PASS,T06 dikecualikan dari mode semua tes.
+Q25,Guard T06 pada runner,PASS,Runner terminal mensyaratkan switch dan konfirmasi RESET.
+Q26,Guard T06 pada controller,PASS,API controller menolak T06 tanpa allowDestructive.
+Q27,Controller bind loopback,PASS,Controller hanya bind ke loopback.
+Q28,Aksi Docker allowlist,PASS,Controller hanya menjalankan daftar aksi yang ditetapkan.
+Q29,Konfirmasi down-v pada API,PASS,down-v memerlukan konfirmasi UI dan penanda eksplisit pada request.
+Q30,Pembersihan data uji setelah sukses,PASS,Data uji ditandai selesai dibersihkan untuk menghindari delete ganda.
+Q31,Pembersihan ulang saat tes gagal,PASS,Controller mencoba cleanup ulang jika langkah tes gagal.
+Q32,Pemulihan stack setelah down,PASS,T04/T06 mencoba memulihkan stack bila terjadi kegagalan.
+Q33,Pemulihan MySQL setelah stop,PASS,T05 mencoba menyalakan MySQL kembali setelah kegagalan.
+Q34,Tidak salah melabeli redirect HTTP 200,PASS,Bukti CRUD tidak menganggap status GET setelah redirect sebagai status POST.
+Q35,Ekspor HTML/CSV/JSON,PASS,Ketiga format laporan tersedia.
+Q36,CSV UTF-8 BOM,PASS,Ekspor CSV menambahkan BOM UTF-8 untuk kompatibilitas Excel.
+Q37,Penyimpanan laporan JSON,PASS,Controller menyimpan laporan JSON setelah run.
+Q38,Peringatan jika laporan gagal disimpan,PASS,Kegagalan menyimpan JSON dilaporkan pada dashboard.
+Q39,UI dashboard memiliki enam area utama,PASS,"Navigasi Ringkasan, Arsitektur, Test Center, Command Center, aplikasi, dan laporan tersedia."
+Q40,Sintaks JavaScript dashboard,PASS,Dashboard JavaScript lolos node --check.
+Q41,Laporan HTML meng-encode data,PASS,Konten dinamis laporan HTML di-encode sebelum disisipkan.
+Q42,Startup memeriksa Docker CLI,PASS,jalankan-sistem.bat memeriksa Docker CLI.
+Q43,Startup menunggu Engine,PASS,Startup menunggu Docker Engine siap sebelum Compose.
+Q44,Startup menunggu controller,PASS,Startup menunggu controller lokal merespons.
+Q45,Password acak .env,PASS,Password database dan secret dibuat acak saat .env pertama kali dibuat.
+Q46,.env di-ignore,PASS,Git ignore mengecualikan .env.
+Q47,Reset database memeriksa Engine dan env,PASS,Reset menyiapkan .env dan memeriksa Docker Engine.
+Q48,Stop script memeriksa Docker,PASS,Skrip stop memberi pesan jika Docker tidak siap.
+Q49,Reset tidak membuka dashboard yang offline,PASS,Dashboard hanya dibuka otomatis bila controller terdeteksi.
+Q50,Runner mendukung ALL dan tes individual,PASS,Runner mendukung mode semua dan T01–T10.
+Q51,Runner mengirim ke controller lokal,PASS,Runner mengirim permintaan ke controller lokal.
+Q52,README menyatakan batas runtime,PASS,README membedakan visual simulasi dan runtime aktual.
+Q53,README menyebut BAT runner,PASS,README menjelaskan runner .bat dan .ps1.
+Q54,Render template aplikasi,PASS,Template Jinja berhasil dirender dengan data contoh dan form CRUD.
+Q55,Konsistensi ringkasan laporan contoh,PASS,"Ringkasan contoh cocok dengan hasil: {'total': 10, 'passed': 9, 'failed': 0, 'skipped': 1}."
+Q56,Catatan contoh laporan jelas,PASS,"Contoh JSON menandai hasil sebagai simulasi, bukan runtime aktual."
+Q57,Caption screenshot menyebut simulasi,PASS,18 caption screenshot memuat keterangan simulasi.
+Q58,Transkrip memisahkan reset manual dan T06,PASS,Transkrip membedakan reset manual dari tes T06 otomatis.
+Q59,Bukti CRUD tidak salah melabeli status POST,PASS,OCR pada screenshot dan controller tidak menemukan klaim bahwa status GET setelah redirect adalah status POST.
+Q60,Jumlah screenshot web lengkap,PASS,8 screenshot web tersedia.
+Q61,Jumlah screenshot terminal lengkap,PASS,10 screenshot terminal tersedia.
+Q62,Visual audit statis tersedia,PASS,Dua visual ringkasan audit tersedia.
+Q63,Tidak mengklaim runtime sudah terverifikasi,PASS,Dokumentasi menyatakan runtime belum dijalankan pada lingkungan penyusunan.
+Q64,CSV/JSON sample berkas tersedia,PASS,Contoh ekspor CSV dan JSON tersedia.
+Q65,ZIP tidak memuat rahasia runtime (pra-paket),PASS,Tidak ada .env runtime pada sumber paket.
+R01,Docker CLI/Engine runtime,BLOCKED,docker executable tidak tersedia di lingkungan penyusunan; perintah docker compose tidak dapat dieksekusi.
+R02,Windows PowerShell runtime,BLOCKED,powershell.exe/pwsh tidak tersedia; skrip .ps1/.bat tidak dapat diuji secara runtime di Windows.
+R03,Flask/MySQL dependency runtime,BLOCKED,Dependensi Flask dan mysql-connector tidak terpasang di lingkungan QA dan akses package index tidak tersedia.
+R04,End-to-end Compose integration,BLOCKED,"Build image, startup container, tes HTTP/MySQL, dan recovery perlu diverifikasi pada laptop Windows dengan Docker Desktop."
+R05,Windows BAT runtime,BLOCKED,Skrip batch hanya dapat diuji final pada Windows; pemeriksaan di sini terbatas pada inspeksi statis.

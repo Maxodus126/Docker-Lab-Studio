@@ -1,0 +1,78 @@
+{
+  "title": "Audit statis tambahan — pembersihan resource Docker",
+  "scope": "HAPUS-SELURUH-DATA-DOCKER.bat, scripts/cleanup-project.ps1, compose.yaml",
+  "note": "Pemeriksaan statis. Docker Engine dan Windows PowerShell tidak dijalankan di lingkungan penyusunan.",
+  "summary": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0,
+    "runtime_executed": false
+  },
+  "checks": [
+    {
+      "check": "BAT exists",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "PowerShell helper exists",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Typed confirmation",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Compose-scoped cleanup",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Volume deletion included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Local image cleanup included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Orphan cleanup included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "No global prune commands",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Project name validated",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Controller stop is scoped",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Container verification included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Volume verification included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    },
+    {
+      "check": "Network verification included",
+      "status": "PASS",
+      "detail": "Static source/package inspection; Windows runtime not executed."
+    }
+  ]
+}

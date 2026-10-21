@@ -1,0 +1,24 @@
+# Secrets and local environment
+.env
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Documentation artifacts
+screenshots/
+README.md
+
+# Runtime test artifacts
+reports/

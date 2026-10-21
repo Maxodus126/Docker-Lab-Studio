@@ -1,0 +1,20 @@
+Docker Lab Studio — Edisi Perbaikan (21 Oktober 2026)
+====================================================
+Stack: Flask + MySQL 8.4 + Docker Compose
+Dashboard: PowerShell controller lokal + HTML/CSS/JavaScript responsif
+Aplikasi: CRUD mahasiswa berbasis Flask dengan penyimpanan MySQL
+Test Center: 10 skenario integrasi/konfigurasi; individual dan semua tes non-destruktif
+Reports: ekspor HTML, CSV (UTF-8 BOM), JSON; JSON run disimpan pada reports/ saat runtime
+Safety: T06 / down -v destruktif, dikecualikan dari Run All dan membutuhkan konfirmasi eksplisit
+Windows entrypoint: jalankan-sistem.bat
+Stop: hentikan-sistem.bat (mempertahankan named volume)
+Reset: reset-database.bat (menghapus named volume lalu menjalankan ulang stack)
+Cleanup total proyek: HAPUS-SELURUH-DATA-DOCKER.bat + scripts/cleanup-project.ps1 (hapus resource runtime tanpa menghapus source/.env)
+Terminal test runner: uji-semua-tes.ps1 dan uji-semua-tes.bat
+URLs: dashboard http://127.0.0.1:8765/ ; aplikasi mahasiswa http://127.0.0.1:5000/
+Secrets: tidak ada .env runtime di arsip; startup membuat .env lokal dengan secret acak.
+Evidence: 8 screenshot web, 10 screenshot terminal, 2 visual ringkasan audit statis.
+Screenshots: visual simulasi untuk bahan belajar; caption laporan menyatakan simulasi.
+Static QA: 70 pemeriksaan; 65 PASS statis, 0 FAIL statis, 5 BLOCKED runtime.
+Runtime status: Docker CLI/Engine, Windows PowerShell, dan dependensi Flask/MySQL tidak tersedia di lingkungan penyusunan; end-to-end runtime perlu diverifikasi di laptop Windows.
+Audit cleanup statis tambahan: 18 PASS, 0 FAIL; runtime Windows belum dijalankan.

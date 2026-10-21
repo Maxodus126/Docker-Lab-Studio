@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Mahasiswa · Docker Lab</title>
+  <style>
+    :root {
+      --bg: #f5f8fc; --surface: #fff; --ink: #172b4d; --muted: #718198;
+      --line: #e5ebf3; --blue: #2878f0; --blue-dark: #155bd4;
+      --teal: #149b83; --green-bg: #e9f8f2; --amber: #a86b08;
+      --amber-bg: #fff5df; --red: #c83e52; --red-bg: #fff0f2;
+      --shadow: 0 8px 28px rgba(27, 57, 93, .055);
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font: 14px/1.5 "Segoe UI", Inter, system-ui, sans-serif; }
+    .wrap { max-width: 1000px; margin: 0 auto; padding: 24px; }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:22px; }
+    .brand { display:flex; align-items:center; gap:12px; }
+    .brand-icon { width:42px; height:42px; border-radius:13px; display:grid; place-items:center; color:#fff; background:linear-gradient(135deg,#388bff,#18b6c9); box-shadow:0 8px 18px #2878f033; }
+    h1 { font-size:22px; line-height:1.2; margin:0 0 5px; letter-spacing:-.5px; }
+    .sub { margin:0; color:var(--muted); font-size:13px; }
+    .pill { display:inline-flex; align-items:center; gap:7px; padding:7px 11px; border-radius:999px; background:var(--green-bg); color:#117b65; font-weight:700; font-size:12px; white-space:nowrap; }
+    .dot { width:7px; height:7px; border-radius:50%; background:#1ab58b; }
+    .hero { padding:23px 24px; border:1px solid #dceaff; border-radius:18px; background:linear-gradient(120deg,#edf5ff 0%,#f7fbff 58%,#e8fbf8 100%); margin-bottom:18px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
+    .hero h2 { font-size:19px; margin:0 0 6px; letter-spacing:-.3px; }
+    .hero p { margin:0; color:#5e7190; max-width:620px; }
+    .hero-icon { flex:0 0 68px; width:68px; height:68px; border-radius:20px; display:grid; place-items:center; background:#fff; color:var(--blue); box-shadow:var(--shadow); }
+    .card { background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); padding:20px; margin-bottom:18px; }
+    .card-head { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:16px; }
+    .card h3 { margin:0; font-size:16px; letter-spacing:-.2px; }
+    .card-desc { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    .form { display:grid; grid-template-columns:1fr 1fr auto; gap:12px; align-items:end; }
+    label { display:block; font-size:12px; color:#586a84; font-weight:700; margin:0 0 7px; }
+    input { width:100%; min-width:0; padding:11px 12px; border:1px solid #dbe3ee; border-radius:10px; background:#fbfdff; color:var(--ink); outline:none; font:inherit; transition:border .15s, box-shadow .15s; }
+    input:focus { border-color:#7db2ff; box-shadow:0 0 0 3px #2878f018; }
+    .btn { border:0; border-radius:10px; padding:11px 15px; font:700 13px "Segoe UI",sans-serif; cursor:pointer; display:inline-flex; align-items:center; justify-content:center; gap:7px; transition:transform .15s, background .15s; white-space:nowrap; }
+    .btn:hover { transform:translateY(-1px); }
+    .btn-primary { color:white; background:var(--blue); box-shadow:0 5px 12px #2878f02b; }
+    .btn-primary:hover { background:var(--blue-dark); }
+    .btn-danger { color:var(--red); background:var(--red-bg); padding:7px 10px; font-size:12px; }
+    .btn:disabled { opacity:.45; cursor:not-allowed; transform:none; }
+    .notice { padding:11px 13px; border-radius:10px; margin:0 0 12px; font-size:13px; border:1px solid transparent; }
+    .notice.success { color:#117b65; background:var(--green-bg); border-color:#c7eee0; }
+    .notice.warning { color:#8b5b08; background:var(--amber-bg); border-color:#f4dfae; }
+    .notice.error { color:#b72c43; background:var(--red-bg); border-color:#f7d0d6; }
+    .notice.info { color:#315d96; background:#eef5ff; border-color:#d8e7ff; }
+    .table-wrap { overflow-x:auto; }
+    table { width:100%; border-collapse:collapse; min-width:480px; }
+    th { text-align:left; padding:11px 12px; font-size:11px; text-transform:uppercase; letter-spacing:.7px; color:#7b8aa0; background:#f8fafd; border-bottom:1px solid var(--line); }
+    td { padding:13px 12px; border-bottom:1px solid #edf1f6; vertical-align:middle; }
+    tbody tr:last-child td { border-bottom:0; }
+    tbody tr:hover { background:#fbfdff; }
+    .student { display:flex; align-items:center; gap:10px; font-weight:650; }
+    .avatar { width:32px; height:32px; border-radius:10px; display:grid; place-items:center; color:#2165cc; background:#e9f2ff; font-weight:800; font-size:12px; flex:0 0 32px; }
+    .nim { color:#50627c; font-variant-numeric:tabular-nums; }
+    .count { padding:5px 9px; border-radius:8px; color:#3566a5; background:#eef5ff; font-size:12px; font-weight:750; }
+    .empty { padding:35px 16px; text-align:center; color:var(--muted); }
+    .empty-icon { width:46px; height:46px; display:grid; place-items:center; margin:0 auto 12px; border-radius:14px; color:#6b91c8; background:#edf4ff; }
+    .empty strong { display:block; color:#3a4e6a; margin-bottom:4px; }
+    .foot { display:flex; align-items:center; justify-content:space-between; gap:12px; color:#8b98aa; font-size:11px; padding:0 3px 10px; }
+    @media (max-width:680px) {
+      .wrap { padding:15px; } .top { align-items:flex-start; } .pill { display:none; }
+      .hero { padding:18px; } .hero-icon { display:none; } .form { grid-template-columns:1fr; }
+      .card { padding:16px; } .foot { align-items:flex-start; flex-direction:column; }
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg width="25" height="25" viewBox="0 0 24 24" fill="none"><path d="M4 8.5h3v3H4zm4 0h3v3H8zm4 0h3v3h-3zm-4-4h3v3H8zm4 0h3v3h-3zm4 4h3v3h-3zM4 12.5h15c-.3 4.4-2.7 6.8-7.2 6.8-3.7 0-6.3-2.2-7.8-6.8Z" fill="currentColor"/></svg>
+        </div>
+        <div>
+          <h1>Data Mahasiswa</h1>
+          <p class="sub">Flask Web · Docker Lab</p>
+        </div>
+      </div>
+      <span class="pill"><span class="dot"></span> Aplikasi web</span>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h2>Kelola data dengan sederhana.</h2>
+        <p>Contoh aplikasi CRUD untuk membuktikan koneksi Flask ke MySQL di dalam Docker Compose. Data disimpan di database, bukan di browser.</p>
+      </div>
+      <div class="hero-icon" aria-hidden="true">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><circle cx="9" cy="10" r="2.2"/><path d="M5.5 17c.6-2 1.8-3 3.5-3s2.9 1 3.5 3M15 9h3M15 13h3"/></svg>
+      </div>
+    </section>
+
+    {% if not db_available %}
+      <div class="notice warning" role="status"><strong>Database belum terhubung.</strong> Halaman web tetap aktif. Jalankan kembali service MySQL dari dashboard kontrol, lalu muat ulang halaman ini.</div>
+    {% endif %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% for category, message in messages %}
+        <div class="notice {{ category }}" role="status">{{ message }}</div>
+      {% endfor %}
+    {% endwith %}
+
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h3>Tambah mahasiswa</h3>
+          <p class="card-desc">Isi nama dan NIM untuk menyimpan data ke MySQL.</p>
+        </div>
+        <span class="count">{{ students|length }} data</span>
+      </div>
+      <form class="form" method="post" action="{{ url_for('add_student') }}">
+        <div>
+          <label for="name">Nama mahasiswa</label>
+          <input id="name" name="name" type="text" maxlength="120" placeholder="Contoh: Andi Pratama" required>
+        </div>
+        <div>
+          <label for="nim">NIM</label>
+          <input id="nim" name="nim" type="text" maxlength="30" placeholder="Contoh: 23001" required>
+        </div>
+        <button class="btn btn-primary" type="submit" {% if not db_available %}disabled{% endif %}>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+          Tambah data
+        </button>
+      </form>
+    </section>
+
+    <section class="card">
+      <div class="card-head">
+        <div>
+          <h3>Daftar mahasiswa</h3>
+          <p class="card-desc">Data terbaru ditampilkan di bagian atas.</p>
+        </div>
+        <span class="count">{{ students|length }} mahasiswa</span>
+      </div>
+      {% if students %}
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th style="width:68px">ID</th><th>Nama</th><th>NIM</th><th style="width:105px">Aksi</th></tr></thead>
+            <tbody>
+              {% for student in students %}
+                <tr>
+                  <td><span style="color:#8190a4;font-weight:700">#{{ student.id }}</span></td>
+                  <td><div class="student"><span class="avatar">{{ student.name[:1]|upper }}</span><span>{{ student.name }}</span></div></td>
+                  <td class="nim">{{ student.nim }}</td>
+                  <td>
+                    <form method="post" action="{{ url_for('delete_student', student_id=student.id) }}" onsubmit="return confirm('Hapus data mahasiswa ini?')">
+                      <button class="btn btn-danger" type="submit" {% if not db_available %}disabled{% endif %}>Hapus</button>
+                    </form>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <div class="empty">
+          <div class="empty-icon" aria-hidden="true">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3"/><path d="M3.5 19c.4-3.2 2.2-5 5.5-5s5.1 1.8 5.5 5M17 8v6m-3-3h6"/></svg>
+          </div>
+          <strong>Belum ada data mahasiswa</strong>
+          <span>Tambahkan data pertama menggunakan formulir di atas.</span>
+        </div>
+      {% endif %}
+    </section>
+
+    <footer class="foot">
+      <span>Docker Lab Studio · Praktikum Komputasi Awan</span>
+      <span>Flask ↔ MySQL · Volume persisten</span>
+    </footer>
+  </main>
+</body>
+</html>

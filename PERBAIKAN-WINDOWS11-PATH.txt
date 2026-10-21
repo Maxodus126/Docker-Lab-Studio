@@ -1,0 +1,35 @@
+PERBAIKAN WINDOWS 11 — PROJECTROOT PATH
+========================================
+
+Gejala yang diperbaiki:
+  Exception calling "GetFullPath" ... "Illegal characters in path."
+  pada scripts\initialize-env.ps1.
+
+Penyebab:
+  File BAT sebelumnya meneruskan -ProjectRoot "%~dp0". Variabel %~dp0
+  berakhir dengan backslash. Pada pemrosesan argumen Windows, backslash tepat
+  sebelum tanda kutip dapat membuat tanda kutip dianggap sebagai karakter literal.
+  PowerShell lalu dapat menerima path dengan tanda kutip tambahan dan GetFullPath
+  menolaknya. Microsoft menjelaskan aturan backslash/tanda kutip command-line dan
+  GetFullPath melempar ArgumentException untuk path yang mengandung karakter ilegal.
+
+Perbaikan dalam paket ini:
+  1. Semua pemanggilan BAT yang mengirim ProjectRoot menggunakan "%~dp0.".
+     Titik di akhir membuat tanda kutip penutup tidak didahului backslash.
+  2. initialize-env.ps1, controller.ps1, dan cleanup-project.ps1 membersihkan
+     tanda kutip luar yang tidak sengaja masuk dan menampilkan pesan diagnostik.
+  3. File .env yang sudah ada tetap dipertahankan; script tidak menimpanya.
+
+CARA MEMAKAI ZIP PATCH:
+  1. Tutup jendela controller/dashboard lama jika ada.
+  2. Ekstrak isi ZIP patch langsung ke folder Docker_Lab_Studio_Terpadu yang lama.
+  3. Izinkan overwrite file yang diminta. Struktur folder scripts dan dashboard harus dipertahankan.
+  4. Klik dua kali jalankan-sistem.bat.
+  5. Jika berhasil, script membuat .env bila belum ada, menunggu Docker Engine,
+     menjalankan Compose, dan membuka dashboard.
+
+CATATAN:
+  Ini memperbaiki kesalahan path. Docker Engine, koneksi internet saat build,
+  WSL 2/virtualisasi, dan port yang tersedia tetap menjadi prasyarat runtime.
+  Paket ini diperiksa secara statis; tidak ada klaim bahwa Docker telah dijalankan
+  pada komputer Windows 11 pengguna.

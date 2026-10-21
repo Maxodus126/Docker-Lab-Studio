@@ -1,0 +1,441 @@
+{
+  "project": "Docker Lab Studio — Edisi Perbaikan",
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "python": "3.13.5",
+    "node": "v22.16.0",
+    "docker_cli": null,
+    "powershell": null,
+    "flask_importable": false,
+    "mysql_connector_importable": false
+  },
+  "summary": {
+    "total": 70,
+    "pass": 65,
+    "fail": 0,
+    "blocked": 5
+  },
+  "results": [
+    {
+      "id": "Q01",
+      "name": "Berkas utama proyek",
+      "status": "PASS",
+      "detail": "20/20 file wajib tersedia."
+    },
+    {
+      "id": "Q02",
+      "name": "File rahasia .env tidak disertakan",
+      "status": "PASS",
+      "detail": "File .env lokal tidak ada di paket sumber."
+    },
+    {
+      "id": "Q03",
+      "name": ".env.example tersedia dan memakai placeholder",
+      "status": "PASS",
+      "detail": "Template environment memakai placeholder, bukan kredensial runtime."
+    },
+    {
+      "id": "Q04",
+      "name": "Sintaks Python aplikasi",
+      "status": "PASS",
+      "detail": "app/app.py lolos parsing sintaks Python."
+    },
+    {
+      "id": "Q05",
+      "name": "Sintaks YAML Compose",
+      "status": "PASS",
+      "detail": "compose.yaml dapat diparse dan memuat services."
+    },
+    {
+      "id": "Q06",
+      "name": "Service web dan db terpisah",
+      "status": "PASS",
+      "detail": "Compose mendefinisikan service web dan db."
+    },
+    {
+      "id": "Q07",
+      "name": "Port Flask dibatasi ke loopback",
+      "status": "PASS",
+      "detail": "Port web dipublikasikan hanya pada 127.0.0.1:5000."
+    },
+    {
+      "id": "Q08",
+      "name": "MySQL tidak dipublikasikan ke host",
+      "status": "PASS",
+      "detail": "Service db tidak memiliki deklarasi ports pada host."
+    },
+    {
+      "id": "Q09",
+      "name": "Named volume MySQL",
+      "status": "PASS",
+      "detail": "dbdata dipasang pada /var/lib/mysql dan dideklarasikan."
+    },
+    {
+      "id": "Q10",
+      "name": "Healthcheck MySQL",
+      "status": "PASS",
+      "detail": "MySQL memiliki healthcheck dan web menunggu db sehat."
+    },
+    {
+      "id": "Q11",
+      "name": "Healthcheck Flask",
+      "status": "PASS",
+      "detail": "Service web memiliki healthcheck ke endpoint /live."
+    },
+    {
+      "id": "Q12",
+      "name": "Image MySQL 8.4",
+      "status": "PASS",
+      "detail": "Compose memakai image mysql:8.4."
+    },
+    {
+      "id": "Q13",
+      "name": "Image dasar Python slim",
+      "status": "PASS",
+      "detail": "Dockerfile menggunakan python:3.12-slim."
+    },
+    {
+      "id": "Q14",
+      "name": "Container memakai user non-root",
+      "status": "PASS",
+      "detail": "Aplikasi berjalan sebagai appuser non-root."
+    },
+    {
+      "id": "Q15",
+      "name": "Endpoint liveness",
+      "status": "PASS",
+      "detail": "Endpoint /live tersedia."
+    },
+    {
+      "id": "Q16",
+      "name": "Endpoint readiness database",
+      "status": "PASS",
+      "detail": "Endpoint /health membedakan database connected dan unavailable."
+    },
+    {
+      "id": "Q17",
+      "name": "CRUD mahasiswa",
+      "status": "PASS",
+      "detail": "Endpoint tambah dan hapus mahasiswa tersedia."
+    },
+    {
+      "id": "Q18",
+      "name": "Validasi input kosong",
+      "status": "PASS",
+      "detail": "Nama dan NIM kosong ditolak di server."
+    },
+    {
+      "id": "Q19",
+      "name": "Query SQL parameterized",
+      "status": "PASS",
+      "detail": "Insert menggunakan placeholder parameter, bukan interpolasi SQL."
+    },
+    {
+      "id": "Q20",
+      "name": "NIM unik dan handler duplikat",
+      "status": "PASS",
+      "detail": "NIM unik ditetapkan pada DB dan IntegrityError ditangani."
+    },
+    {
+      "id": "Q21",
+      "name": "Retry koneksi MySQL",
+      "status": "PASS",
+      "detail": "Inisialisasi database mencoba ulang koneksi."
+    },
+    {
+      "id": "Q22",
+      "name": "Mode debug dimatikan",
+      "status": "PASS",
+      "detail": "Flask dijalankan dengan debug=False."
+    },
+    {
+      "id": "Q23",
+      "name": "Katalog tes T01–T10",
+      "status": "PASS",
+      "detail": "Controller memuat 10 skenario tes."
+    },
+    {
+      "id": "Q24",
+      "name": "Mode semua tes melewati T06",
+      "status": "PASS",
+      "detail": "T06 dikecualikan dari mode semua tes."
+    },
+    {
+      "id": "Q25",
+      "name": "Guard T06 pada runner",
+      "status": "PASS",
+      "detail": "Runner terminal mensyaratkan switch dan konfirmasi RESET."
+    },
+    {
+      "id": "Q26",
+      "name": "Guard T06 pada controller",
+      "status": "PASS",
+      "detail": "API controller menolak T06 tanpa allowDestructive."
+    },
+    {
+      "id": "Q27",
+      "name": "Controller bind loopback",
+      "status": "PASS",
+      "detail": "Controller hanya bind ke loopback."
+    },
+    {
+      "id": "Q28",
+      "name": "Aksi Docker allowlist",
+      "status": "PASS",
+      "detail": "Controller hanya menjalankan daftar aksi yang ditetapkan."
+    },
+    {
+      "id": "Q29",
+      "name": "Konfirmasi down-v pada API",
+      "status": "PASS",
+      "detail": "down-v memerlukan konfirmasi UI dan penanda eksplisit pada request."
+    },
+    {
+      "id": "Q30",
+      "name": "Pembersihan data uji setelah sukses",
+      "status": "PASS",
+      "detail": "Data uji ditandai selesai dibersihkan untuk menghindari delete ganda."
+    },
+    {
+      "id": "Q31",
+      "name": "Pembersihan ulang saat tes gagal",
+      "status": "PASS",
+      "detail": "Controller mencoba cleanup ulang jika langkah tes gagal."
+    },
+    {
+      "id": "Q32",
+      "name": "Pemulihan stack setelah down",
+      "status": "PASS",
+      "detail": "T04/T06 mencoba memulihkan stack bila terjadi kegagalan."
+    },
+    {
+      "id": "Q33",
+      "name": "Pemulihan MySQL setelah stop",
+      "status": "PASS",
+      "detail": "T05 mencoba menyalakan MySQL kembali setelah kegagalan."
+    },
+    {
+      "id": "Q34",
+      "name": "Tidak salah melabeli redirect HTTP 200",
+      "status": "PASS",
+      "detail": "Bukti CRUD tidak menganggap status GET setelah redirect sebagai status POST."
+    },
+    {
+      "id": "Q35",
+      "name": "Ekspor HTML/CSV/JSON",
+      "status": "PASS",
+      "detail": "Ketiga format laporan tersedia."
+    },
+    {
+      "id": "Q36",
+      "name": "CSV UTF-8 BOM",
+      "status": "PASS",
+      "detail": "Ekspor CSV menambahkan BOM UTF-8 untuk kompatibilitas Excel."
+    },
+    {
+      "id": "Q37",
+      "name": "Penyimpanan laporan JSON",
+      "status": "PASS",
+      "detail": "Controller menyimpan laporan JSON setelah run."
+    },
+    {
+      "id": "Q38",
+      "name": "Peringatan jika laporan gagal disimpan",
+      "status": "PASS",
+      "detail": "Kegagalan menyimpan JSON dilaporkan pada dashboard."
+    },
+    {
+      "id": "Q39",
+      "name": "UI dashboard memiliki enam area utama",
+      "status": "PASS",
+      "detail": "Navigasi Ringkasan, Arsitektur, Test Center, Command Center, aplikasi, dan laporan tersedia."
+    },
+    {
+      "id": "Q40",
+      "name": "Sintaks JavaScript dashboard",
+      "status": "PASS",
+      "detail": "Dashboard JavaScript lolos node --check."
+    },
+    {
+      "id": "Q41",
+      "name": "Laporan HTML meng-encode data",
+      "status": "PASS",
+      "detail": "Konten dinamis laporan HTML di-encode sebelum disisipkan."
+    },
+    {
+      "id": "Q42",
+      "name": "Startup memeriksa Docker CLI",
+      "status": "PASS",
+      "detail": "jalankan-sistem.bat memeriksa Docker CLI."
+    },
+    {
+      "id": "Q43",
+      "name": "Startup menunggu Engine",
+      "status": "PASS",
+      "detail": "Startup menunggu Docker Engine siap sebelum Compose."
+    },
+    {
+      "id": "Q44",
+      "name": "Startup menunggu controller",
+      "status": "PASS",
+      "detail": "Startup menunggu controller lokal merespons."
+    },
+    {
+      "id": "Q45",
+      "name": "Password acak .env",
+      "status": "PASS",
+      "detail": "Password database dan secret dibuat acak saat .env pertama kali dibuat."
+    },
+    {
+      "id": "Q46",
+      "name": ".env di-ignore",
+      "status": "PASS",
+      "detail": "Git ignore mengecualikan .env."
+    },
+    {
+      "id": "Q47",
+      "name": "Reset database memeriksa Engine dan env",
+      "status": "PASS",
+      "detail": "Reset menyiapkan .env dan memeriksa Docker Engine."
+    },
+    {
+      "id": "Q48",
+      "name": "Stop script memeriksa Docker",
+      "status": "PASS",
+      "detail": "Skrip stop memberi pesan jika Docker tidak siap."
+    },
+    {
+      "id": "Q49",
+      "name": "Reset tidak membuka dashboard yang offline",
+      "status": "PASS",
+      "detail": "Dashboard hanya dibuka otomatis bila controller terdeteksi."
+    },
+    {
+      "id": "Q50",
+      "name": "Runner mendukung ALL dan tes individual",
+      "status": "PASS",
+      "detail": "Runner mendukung mode semua dan T01–T10."
+    },
+    {
+      "id": "Q51",
+      "name": "Runner mengirim ke controller lokal",
+      "status": "PASS",
+      "detail": "Runner mengirim permintaan ke controller lokal."
+    },
+    {
+      "id": "Q52",
+      "name": "README menyatakan batas runtime",
+      "status": "PASS",
+      "detail": "README membedakan visual simulasi dan runtime aktual."
+    },
+    {
+      "id": "Q53",
+      "name": "README menyebut BAT runner",
+      "status": "PASS",
+      "detail": "README menjelaskan runner .bat dan .ps1."
+    },
+    {
+      "id": "Q54",
+      "name": "Render template aplikasi",
+      "status": "PASS",
+      "detail": "Template Jinja berhasil dirender dengan data contoh dan form CRUD."
+    },
+    {
+      "id": "Q55",
+      "name": "Konsistensi ringkasan laporan contoh",
+      "status": "PASS",
+      "detail": "Ringkasan contoh cocok dengan hasil: {'total': 10, 'passed': 9, 'failed': 0, 'skipped': 1}."
+    },
+    {
+      "id": "Q56",
+      "name": "Catatan contoh laporan jelas",
+      "status": "PASS",
+      "detail": "Contoh JSON menandai hasil sebagai simulasi, bukan runtime aktual."
+    },
+    {
+      "id": "Q57",
+      "name": "Caption screenshot menyebut simulasi",
+      "status": "PASS",
+      "detail": "18 caption screenshot memuat keterangan simulasi."
+    },
+    {
+      "id": "Q58",
+      "name": "Transkrip memisahkan reset manual dan T06",
+      "status": "PASS",
+      "detail": "Transkrip membedakan reset manual dari tes T06 otomatis."
+    },
+    {
+      "id": "Q59",
+      "name": "Bukti CRUD tidak salah melabeli status POST",
+      "status": "PASS",
+      "detail": "OCR pada screenshot dan controller tidak menemukan klaim bahwa status GET setelah redirect adalah status POST."
+    },
+    {
+      "id": "Q60",
+      "name": "Jumlah screenshot web lengkap",
+      "status": "PASS",
+      "detail": "8 screenshot web tersedia."
+    },
+    {
+      "id": "Q61",
+      "name": "Jumlah screenshot terminal lengkap",
+      "status": "PASS",
+      "detail": "10 screenshot terminal tersedia."
+    },
+    {
+      "id": "Q62",
+      "name": "Visual audit statis tersedia",
+      "status": "PASS",
+      "detail": "Dua visual ringkasan audit tersedia."
+    },
+    {
+      "id": "Q63",
+      "name": "Tidak mengklaim runtime sudah terverifikasi",
+      "status": "PASS",
+      "detail": "Dokumentasi menyatakan runtime belum dijalankan pada lingkungan penyusunan."
+    },
+    {
+      "id": "Q64",
+      "name": "CSV/JSON sample berkas tersedia",
+      "status": "PASS",
+      "detail": "Contoh ekspor CSV dan JSON tersedia."
+    },
+    {
+      "id": "Q65",
+      "name": "ZIP tidak memuat rahasia runtime (pra-paket)",
+      "status": "PASS",
+      "detail": "Tidak ada .env runtime pada sumber paket."
+    },
+    {
+      "id": "R01",
+      "name": "Docker CLI/Engine runtime",
+      "status": "BLOCKED",
+      "detail": "docker executable tidak tersedia di lingkungan penyusunan; perintah docker compose tidak dapat dieksekusi."
+    },
+    {
+      "id": "R02",
+      "name": "Windows PowerShell runtime",
+      "status": "BLOCKED",
+      "detail": "powershell.exe/pwsh tidak tersedia; skrip .ps1/.bat tidak dapat diuji secara runtime di Windows."
+    },
+    {
+      "id": "R03",
+      "name": "Flask/MySQL dependency runtime",
+      "status": "BLOCKED",
+      "detail": "Dependensi Flask dan mysql-connector tidak terpasang di lingkungan QA dan akses package index tidak tersedia."
+    },
+    {
+      "id": "R04",
+      "name": "End-to-end Compose integration",
+      "status": "BLOCKED",
+      "detail": "Build image, startup container, tes HTTP/MySQL, dan recovery perlu diverifikasi pada laptop Windows dengan Docker Desktop."
+    },
+    {
+      "id": "R05",
+      "name": "Windows BAT runtime",
+      "status": "BLOCKED",
+      "detail": "Skrip batch hanya dapat diuji final pada Windows; pemeriksaan di sini terbatas pada inspeksi statis."
+    }
+  ],
+  "scope_note": "PASS adalah pemeriksaan statis yang benar-benar dijalankan. BLOCKED berarti runtime tidak tersedia di lingkungan penyusunan; tidak dihitung sebagai FAIL maupun PASS runtime."
+}

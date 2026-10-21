@@ -1,0 +1,29 @@
+KETERANGAN BUKTI — DOCKER LAB STUDIO
+
+Screenshot web dan terminal merupakan visual simulasi untuk bahan belajar, bukan bukti runtime aktual. Caption pada laporan menyebutkan status simulasi. Audit statis adalah hasil pemeriksaan berkas sumber; audit ini juga tidak membuktikan container berjalan.
+
+SCREENSHOT WEB
+- 01-dashboard-overview.png: Gambar 1.1. Dashboard ringkasan status Flask, MySQL, volume, network, dan hasil tes terakhir. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 02-dashboard-arsitektur.png: Gambar 1.2. Peta arsitektur Browser → Flask → MySQL, network appnet, dan named volume dbdata. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 03-dashboard-test-center.png: Gambar 1.3. Test Center menampilkan sepuluh skenario, tombol Jalankan Semua Tes, status tiap tes, dan peringatan tes destruktif. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 04-dashboard-hasil-pengujian.png: Gambar 1.4. Execution results menampilkan Run ID, ringkasan PASS/FAIL/SKIPPED, durasi, dan hasil aktual tiap tes. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 05-dashboard-command-center.png: Gambar 1.5. Command Center menampilkan tombol Docker Compose dan contoh output terminal build, status container, serta health endpoint. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 06-dashboard-aplikasi-mahasiswa.png: Gambar 1.6. Dashboard menampilkan preview aplikasi Flask untuk menambah dan melihat data mahasiswa. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 07-dashboard-reports-bukti.png: Gambar 1.7. Reports & evidence menampilkan ekspor HTML, CSV, JSON, Run ID, dan aktivitas controller. Gambar ini merupakan simulasi visual untuk bahan belajar.
+- 08-aplikasi-mahasiswa.png: Gambar 1.8. Aplikasi mahasiswa berdiri sendiri pada localhost:5000 dengan formulir tambah data dan daftar mahasiswa. Gambar ini merupakan simulasi visual untuk bahan belajar.
+
+SCREENSHOT TERMINAL
+- 01-prasyarat-docker.png: Gambar 2.1. Pemeriksaan versi Docker, Compose, Engine, file .env, dan validitas compose.yaml. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 02-build-startup.png: Gambar 2.2. Contoh proses docker compose up -d --build, build image Flask, pembuatan network/volume, dan startup container. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 03-status-container-log.png: Gambar 2.3. Pemeriksaan docker compose ps --all dan log Flask/MySQL setelah startup. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 04-crud-mahasiswa.png: Gambar 2.4. Contoh pengujian Create, Read, Delete mahasiswa; status setelah redirect tidak disalahartikan sebagai status POST. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 05-persistensi-volume.png: Gambar 2.5. Pengujian persistensi marker setelah docker compose down dan docker compose up tanpa -v. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 06-pemulihan-mysql.png: Gambar 2.6. Penghentian sementara MySQL, pemeriksaan /live dan /health, lalu pemulihan database. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 07-network-dan-diagnostik.png: Gambar 2.7. Pengujian resolusi hostname db, koneksi MySQL dari container web, dan pemeriksaan volume/network. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 08-validasi-input.png: Gambar 2.8. Pengujian penolakan input kosong dan NIM duplikat, kemudian pembersihan data uji. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 09-ringkasan-jalankan-semua-tes.png: Gambar 2.9. Ringkasan contoh tes T01–T10: sembilan PASS dan satu SKIPPED untuk T06. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+- 10-reset-volume-opsional.png: Gambar 2.10. Contoh reset volume manual (opsional), penghapusan named volume, dan pemeriksaan database baru kosong. Gambar ini merupakan simulasi output terminal untuk bahan belajar.
+
+VISUAL AUDIT STATIS
+- 01-audit-statis-aktual.png: Ringkasan 70 pemeriksaan statis; 65 PASS, 0 FAIL, 5 BLOCKED runtime.
+- 02-runtime-blockers-aktual.png: Runtime yang tidak dapat dijalankan pada lingkungan penyusunan.

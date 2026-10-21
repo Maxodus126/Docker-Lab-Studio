@@ -1,0 +1,6 @@
+.env
+__pycache__/
+*.py[cod]
+reports/*.json
+reports/*.csv
+reports/*.html

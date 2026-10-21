@@ -1,0 +1,296 @@
+{
+  "product": "Docker Lab Studio",
+  "project": "flask-mysql-docker-lab",
+  "runId": "20261020-231455",
+  "mode": "ALL_NON_DESTRUCTIVE",
+  "generatedAt": "2026-10-20 23:19:11",
+  "projectRoot": "C:\\DockerLabStudio",
+  "summary": {
+    "total": 10,
+    "passed": 9,
+    "failed": 0,
+    "skipped": 1,
+    "lastRunAt": "2026-10-20 23:19:11"
+  },
+  "results": [
+    {
+      "id": "T01",
+      "title": "Prasyarat & konfigurasi",
+      "category": "T01",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Docker Engine merespons, .env tersedia, dan konfigurasi Compose valid.",
+      "description": "Memastikan Docker Engine, Docker Compose, .env, dan compose.yaml siap.",
+      "startedAt": "2026-10-20 23:13:12",
+      "finishedAt": "2026-10-20 23:13:12",
+      "durationMs": 245,
+      "steps": [
+        "Periksa versi Docker dan status controller pada dashboard.",
+        "Klik Refresh untuk memperbarui status.",
+        "docker --version",
+        "docker compose version",
+        "docker info --format '{{.ServerVersion}}'",
+        "Test-Path .env",
+        "docker compose config --quiet"
+      ],
+      "actual": "Docker Engine merespons; .env tersedia; docker compose config --quiet exit 0.",
+      "evidence": [
+        "Docker Engine merespons, .env tersedia, dan konfigurasi Compose valid.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T02",
+      "title": "Build & startup service",
+      "category": "T02",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Dua container berjalan; /health berstatus ok dan database connected.",
+      "description": "Membangun image web dan menjalankan Flask serta MySQL.",
+      "startedAt": "2026-10-20 23:13:12",
+      "finishedAt": "2026-10-20 23:13:36",
+      "durationMs": 24122,
+      "steps": [
+        "Klik Up + Build di Command Center atau Jalankan T02 di Test Center.",
+        "Tunggu Flask dan MySQL siap.",
+        "docker compose up -d --build",
+        "docker compose ps --all",
+        "Invoke-RestMethod http://127.0.0.1:5000/health"
+      ],
+      "actual": "Image dibangun; lab-flask-web dan lab-mysql-db berjalan; /health status ok, database connected.",
+      "evidence": [
+        "Dua container berjalan; /health berstatus ok dan database connected.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T03",
+      "title": "Create, read & delete mahasiswa",
+      "category": "T03",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Data dapat ditambahkan dan dibaca; setelah dihapus, NIM tidak lagi muncul.",
+      "description": "Memverifikasi CRUD aplikasi Flask dan MySQL.",
+      "startedAt": "2026-10-20 23:13:37",
+      "finishedAt": "2026-10-20 23:13:38",
+      "durationMs": 804,
+      "steps": [
+        "Buka Aplikasi mahasiswa.",
+        "Tambah data uji dengan NIM unik, pastikan muncul, lalu hapus.",
+        "Atau klik Jalankan tes pada kartu T03.",
+        " $nim = \"DLT20261020XXXX\"",
+        "$body = @{ name = \"Docker Lab Test CRUD\"; nim = $nim }",
+        "Invoke-WebRequest -Uri \"http://127.0.0.1:5000/students\" -Method Post -Body $body",
+        "(Invoke-WebRequest \"http://127.0.0.1:5000/\").Content.Contains($nim)"
+      ],
+      "actual": "Create, read, dan delete melalui aplikasi web berhasil; data uji dibersihkan.",
+      "evidence": [
+        "Data dapat ditambahkan dan dibaca; setelah dihapus, NIM tidak lagi muncul.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T04",
+      "title": "Persistensi named volume",
+      "category": "T04",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Marker tetap ada setelah down/up; volume dbdata dipertahankan.",
+      "description": "Membuktikan data MySQL bertahan setelah container dibuat ulang tanpa menghapus volume.",
+      "startedAt": "2026-10-20 23:13:38",
+      "finishedAt": "2026-10-20 23:13:57",
+      "durationMs": 18900,
+      "steps": [
+        "Klik Jalankan T04.",
+        "Tes membuat marker unik, menjalankan down/up tanpa -v, memverifikasi marker, lalu membersihkannya.",
+        "docker compose down",
+        "docker compose up -d",
+        "(Invoke-WebRequest 'http://127.0.0.1:5000/').Content.Contains($marker)"
+      ],
+      "actual": "Marker tetap ada setelah docker compose down lalu up tanpa -v; data uji dibersihkan.",
+      "evidence": [
+        "Marker tetap ada setelah down/up; volume dbdata dipertahankan.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T05",
+      "title": "Pemulihan MySQL",
+      "category": "T05",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Flask tetap hidup; /health menjadi degraded ketika DB berhenti dan kembali ok setelah DB pulih.",
+      "description": "Menguji respons Flask saat MySQL berhenti dan pulih.",
+      "startedAt": "2026-10-20 23:13:57",
+      "finishedAt": "2026-10-20 23:14:10",
+      "durationMs": 13344,
+      "steps": [
+        "Klik Jalankan T05.",
+        "Tes menghentikan db, memeriksa /live dan /health, menyalakan db kembali, lalu menunggu health pulih.",
+        "docker compose stop db",
+        "Invoke-RestMethod http://127.0.0.1:5000/live",
+        "Invoke-RestMethod http://127.0.0.1:5000/health",
+        "docker compose start db"
+      ],
+      "actual": "Flask tetap hidup saat MySQL berhenti, health degraded, lalu connected setelah MySQL start.",
+      "evidence": [
+        "Flask tetap hidup; /health menjadi degraded ketika DB berhenti dan kembali ok setelah DB pulih.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T06",
+      "title": "Reset volume database (destruktif)",
+      "category": "T06",
+      "status": "SKIPPED",
+      "destructive": true,
+      "expected": "Volume dibuat ulang dan database baru kosong. Data lama pada volume proyek akan hilang.",
+      "description": "Membuktikan down -v menghapus named volume dan data di dalamnya.",
+      "startedAt": "2026-10-20 23:14:10",
+      "finishedAt": "2026-10-20 23:14:10",
+      "durationMs": 0,
+      "steps": [
+        "Tidak dijalankan oleh suite otomatis."
+      ],
+      "actual": "Dilewati pada mode semua tes karena down -v dapat menghapus seluruh data dalam named volume.",
+      "evidence": [
+        "T06 memerlukan backup dan konfirmasi eksplisit."
+      ],
+      "logs": [],
+      "error": ""
+    },
+    {
+      "id": "T07",
+      "title": "Network internal & koneksi DB",
+      "category": "T07",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Hostname db ter-resolve dan koneksi MySQL internal berhasil.",
+      "description": "Memastikan web menemukan MySQL melalui hostname db di network Compose.",
+      "startedAt": "2026-10-20 23:14:10",
+      "finishedAt": "2026-10-20 23:14:11",
+      "durationMs": 530,
+      "steps": [
+        "Klik Jalankan T07 setelah stack sehat.",
+        "Tes menjalankan DNS lookup dan koneksi MySQL dari container web.",
+        "docker compose exec -T web python -c \"import socket; print(socket.gethostbyname('db'))\"",
+        "docker compose exec -T web python -c \"import os,mysql.connector; c=mysql.connector.connect(host=os.getenv('DB_HOST','db'),user=os.getenv('DB_USER'),password=os.getenv('DB_PASSWORD'),database=os.getenv('DB_NAME')); c.close(); print('MYSQL_CONNECT_OK')\""
+      ],
+      "actual": "DNS service db ter-resolve dan koneksi MySQL internal berhasil dari container web.",
+      "evidence": [
+        "Hostname db ter-resolve dan koneksi MySQL internal berhasil.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T08",
+      "title": "Snapshot diagnostik",
+      "category": "T08",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Status, log, volume, dan network berhasil dikumpulkan.",
+      "description": "Mengumpulkan bukti status container, log, volume, dan network.",
+      "startedAt": "2026-10-20 23:14:11",
+      "finishedAt": "2026-10-20 23:14:12",
+      "durationMs": 912,
+      "steps": [
+        "Klik Jalankan T08.",
+        "Bandingkan output di Command Center, lalu buka Reports & evidence.",
+        "docker compose ps --all",
+        "docker compose logs --tail 80 --no-color",
+        "docker volume ls --filter label=com.docker.compose.project=flask-mysql-docker-lab",
+        "docker network ls --filter label=com.docker.compose.project=flask-mysql-docker-lab"
+      ],
+      "actual": "Status container, log, volume, dan network berhasil dikumpulkan sebagai bukti diagnostik.",
+      "evidence": [
+        "Status, log, volume, dan network berhasil dikumpulkan.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T09",
+      "title": "Port & storage configuration",
+      "category": "T09",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Web terikat pada 127.0.0.1:5000; MySQL tidak dipublikasikan ke host; dbdata dipasang ke /var/lib/mysql.",
+      "description": "Memastikan web hanya dipublikasikan ke loopback, DB tidak memiliki port host, dan data memakai named volume.",
+      "startedAt": "2026-10-20 23:14:12",
+      "finishedAt": "2026-10-20 23:14:12",
+      "durationMs": 3,
+      "steps": [
+        "Klik Jalankan T09.",
+        "Periksa compose.yaml bila diperlukan; tes tidak menghentikan service.",
+        "docker compose config",
+        "Select-String -Path .\\compose.yaml -Pattern '127.0.0.1:5000:5000','dbdata:/var/lib/mysql'"
+      ],
+      "actual": "Port web dibatasi ke loopback; MySQL tidak dipublikasikan ke host; dbdata terpasang.",
+      "evidence": [
+        "Web terikat pada 127.0.0.1:5000; MySQL tidak dipublikasikan ke host; dbdata dipasang ke /var/lib/mysql.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    },
+    {
+      "id": "T10",
+      "title": "Validasi input & NIM duplikat",
+      "category": "T10",
+      "status": "PASS",
+      "destructive": false,
+      "expected": "Input kosong dan NIM duplikat ditolak; record uji dibersihkan.",
+      "description": "Memastikan server menolak input kosong dan NIM yang sudah digunakan.",
+      "startedAt": "2026-10-20 23:14:12",
+      "finishedAt": "2026-10-20 23:14:13",
+      "durationMs": 1170,
+      "steps": [
+        "Klik Jalankan T10.",
+        "Tes membuat satu record, mengirim NIM sama, mengirim form kosong, lalu membersihkan data uji.",
+        "$body = @{ name = \"Docker Lab Duplicate Test\"; nim = $nim }",
+        "Invoke-WebRequest -Uri \"http://127.0.0.1:5000/students\" -Method Post -Body $body",
+        "Invoke-WebRequest -Uri \"http://127.0.0.1:5000/students\" -Method Post -Body @{ name=\"\"; nim=\"\" }"
+      ],
+      "actual": "Input kosong dan NIM duplikat ditolak; record uji dibersihkan.",
+      "evidence": [
+        "Input kosong dan NIM duplikat ditolak; record uji dibersihkan.",
+        "Lihat output terminal dan laporan pengujian."
+      ],
+      "logs": [
+        "Perintah Docker/HTTP sesuai skenario dijalankan pada jalur contoh."
+      ],
+      "error": ""
+    }
+  ],
+  "reportFile": "reports\\test-report-20261020-231455.json",
+  "note": "Contoh hasil simulasi untuk bahan belajar; bukan hasil runtime Docker aktual."
+}

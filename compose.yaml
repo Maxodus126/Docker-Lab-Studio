@@ -1,0 +1,62 @@
+name: flask-mysql-docker-lab
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: lab-flask-web
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      DB_HOST: db
+      DB_PORT: "3306"
+      DB_NAME: ${MYSQL_DATABASE:-studentdb}
+      DB_USER: ${MYSQL_USER:-studentapp}
+      DB_PASSWORD: ${MYSQL_PASSWORD:?Create a .env file first}
+      FLASK_SECRET_KEY: ${FLASK_SECRET_KEY:-local-lab-only-change-me}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:5000/live', timeout=2)"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    networks:
+      - appnet
+
+  db:
+    image: mysql:8.4
+    container_name: lab-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD:?Create a .env file first}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-studentdb}
+      MYSQL_USER: ${MYSQL_USER:-studentapp}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD:?Create a .env file first}
+    volumes:
+      - dbdata:/var/lib/mysql
+    restart: unless-stopped
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - 'mysqladmin ping -h 127.0.0.1 -u root -p"$${MYSQL_ROOT_PASSWORD}" --silent'
+      interval: 5s
+      timeout: 3s
+      retries: 20
+      start_period: 20s
+    networks:
+      - appnet
+
+volumes:
+  dbdata:
+
+networks:
+  appnet:
+    driver: bridge

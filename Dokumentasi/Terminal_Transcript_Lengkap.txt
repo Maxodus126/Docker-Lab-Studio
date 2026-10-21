@@ -1,0 +1,190 @@
+DOCKER LAB STUDIO — TRANSKRIP TERMINAL LENGKAP
+================================================
+Jenis: CONTOH OUTPUT YANG DIHARAPKAN / SIMULASI
+Bukan hasil runtime Docker aktual. Gunakan untuk memahami urutan dan membandingkan dengan terminal laptop.
+
+A. PRASYARAT (Gambar 2.1)
+PS C:\DockerLabStudio> docker --version
+Docker version 28.5.1, build e180ab8
+PS C:\DockerLabStudio> docker compose version
+Docker Compose version v2.40.3
+PS C:\DockerLabStudio> docker info --format '{{.ServerVersion}}'
+28.5.1
+PS C:\DockerLabStudio> Test-Path .env
+True
+PS C:\DockerLabStudio> docker compose config --quiet
+PS C:\DockerLabStudio> if ($LASTEXITCODE -eq 0) { 'Compose config valid' }
+Compose config valid
+
+B. BUILD IMAGE DAN STARTUP (Gambar 2.2)
+PS C:\DockerLabStudio> docker compose up -d --build
+[+] Building 24.8s (11/11) FINISHED
+ => [web internal] load build definition from Dockerfile
+ => [web internal] load metadata for docker.io/library/python:3.12-slim
+ => [web 1/5] FROM docker.io/library/python:3.12-slim
+ => [web 2/5] WORKDIR /app
+ => [web 3/5] COPY requirements.txt .
+ => [web 4/5] RUN pip install --no-cache-dir -r requirements.txt
+ => [web 5/5] COPY --chown=appuser:appuser app/ ./app/
+ => exporting to image
+ => naming to docker.io/library/flask-mysql-docker-lab-web:latest
+[+] Running 4/4
+ ✔ Network flask-mysql-docker-lab_appnet  Created
+ ✔ Volume "flask-mysql-docker-lab_dbdata"  Created
+ ✔ Container lab-mysql-db  Started
+ ✔ Container lab-flask-web  Started
+PS C:\DockerLabStudio> Invoke-RestMethod 'http://127.0.0.1:5000/health' | Format-List
+status   : ok
+database : connected
+students : 0
+service  : flask-web
+
+C. STATUS DAN LOG (Gambar 2.3)
+PS C:\DockerLabStudio> docker compose ps --all
+NAME             IMAGE                           SERVICE  STATUS        PORTS
+lab-flask-web    flask-mysql-docker-lab-web      web      Up (healthy)  127.0.0.1:5000->5000/tcp
+lab-mysql-db     mysql:8.4                       db       Up (healthy)  3306/tcp
+PS C:\DockerLabStudio> docker compose logs --tail 10 --no-color
+lab-flask-web | Database siap; tabel students tersedia.
+lab-flask-web | * Serving Flask app 'app'
+lab-flask-web | * Debug mode: off
+lab-flask-web | * Running on all addresses (0.0.0.0)
+lab-flask-web | * Running on http://127.0.0.1:5000
+lab-mysql-db  | [Server] MySQL init process done. Ready for start up.
+
+D. CRUD MAHASISWA (Gambar 2.4)
+PS C:\DockerLabStudio> $nim = "DLT202610202245"
+PS C:\DockerLabStudio> $body = @{ name = "Docker Lab Test CRUD"; nim = $nim }
+PS C:\DockerLabStudio> $response = Invoke-WebRequest -Uri "http://127.0.0.1:5000/students" -Method Post -Body $body -MaximumRedirection 5 -UseBasicParsing
+PS C:\DockerLabStudio> $page = Invoke-WebRequest -Uri "http://127.0.0.1:5000/" -UseBasicParsing
+PS C:\DockerLabStudio> $page.Content.Contains($nim)
+True
+PS C:\DockerLabStudio> # Ambil ID dari baris HTML yang memuat NIM, jangan hardcode ID.
+PS C:\DockerLabStudio> $rowPattern = '(?is)<tr\b[^>]*>(?:(?!</tr>).)*?' + [regex]::Escape($nim) + '(?:(?!</tr>).)*?</tr>'
+PS C:\DockerLabStudio> $row = [regex]::Match($page.Content, $rowPattern).Value
+PS C:\DockerLabStudio> $idMatch = [regex]::Match($row, 'action="/students/(\d+)/delete"')
+PS C:\DockerLabStudio> $studentId = [int]$idMatch.Groups[1].Value
+PS C:\DockerLabStudio> $deleteUri = "http://127.0.0.1:5000/students/$studentId/delete"
+PS C:\DockerLabStudio> $null = Invoke-WebRequest -Uri $deleteUri -Method Post -MaximumRedirection 5 -UseBasicParsing
+PS C:\DockerLabStudio> $after = Invoke-WebRequest -Uri "http://127.0.0.1:5000/" -UseBasicParsing
+PS C:\DockerLabStudio> $after.Content.Contains($nim)
+False
+
+E. PERSISTENSI VOLUME (Gambar 2.5 / T04)
+Tentukan NIM marker yang unik, lalu tambahkan record dengan NIM yang sama melalui aplikasi web.
+PS C:\DockerLabStudio> $marker = "DLT202610202246"
+Pastikan record dengan NIM tersebut tersimpan sebelum menghentikan stack.
+PS C:\DockerLabStudio> docker compose down
+[+] Running 3/3
+ ✔ Container lab-flask-web  Removed
+ ✔ Container lab-mysql-db   Removed
+ ✔ Network flask-mysql-docker-lab_appnet  Removed
+Volume dbdata dipertahankan.
+PS C:\DockerLabStudio> docker compose up -d
+[+] Running 3/3
+ ✔ Network flask-mysql-docker-lab_appnet  Created
+ ✔ Container lab-mysql-db  Started
+ ✔ Container lab-flask-web Started
+PS C:\DockerLabStudio> $page = Invoke-WebRequest 'http://127.0.0.1:5000/' -UseBasicParsing
+PS C:\DockerLabStudio> $page.Content.Contains($marker)
+True
+PS C:\DockerLabStudio> # Cari ID dari baris yang memuat marker, lalu hapus data uji setelah verifikasi.
+PS C:\DockerLabStudio> $rowPattern = '(?is)<tr\b[^>]*>(?:(?!</tr>).)*?' + [regex]::Escape($marker) + '(?:(?!</tr>).)*?</tr>'
+PS C:\DockerLabStudio> $row = [regex]::Match($page.Content, $rowPattern).Value
+PS C:\DockerLabStudio> $idMatch = [regex]::Match($row, 'action="/students/(\d+)/delete"')
+PS C:\DockerLabStudio> $studentId = [int]$idMatch.Groups[1].Value
+PS C:\DockerLabStudio> $deleteUri = "http://127.0.0.1:5000/students/$studentId/delete"
+PS C:\DockerLabStudio> $null = Invoke-WebRequest -Uri $deleteUri -Method Post -MaximumRedirection 5 -UseBasicParsing
+PS C:\DockerLabStudio> $after = Invoke-WebRequest 'http://127.0.0.1:5000/' -UseBasicParsing
+PS C:\DockerLabStudio> $after.Content.Contains($marker)
+False
+
+F. PEMULIHAN MYSQL (Gambar 2.6 / T05)
+PS C:\DockerLabStudio> docker compose stop db
+[+] Stopping 1/1
+ ✔ Container lab-mysql-db  Stopped
+PS C:\DockerLabStudio> Invoke-RestMethod 'http://127.0.0.1:5000/live' | Format-List
+status  : alive
+service : flask-web
+PS C:\DockerLabStudio> Invoke-RestMethod 'http://127.0.0.1:5000/health' | Format-List
+status   : degraded
+database : unavailable
+students :
+service  : flask-web
+message  : MySQL belum tersedia atau sedang dipulihkan.
+PS C:\DockerLabStudio> docker compose start db
+[+] Starting 1/1
+ ✔ Container lab-mysql-db Started
+Setelah health check MySQL pulih:
+status   : ok
+database : connected
+service  : flask-web
+
+G. NETWORK DAN DIAGNOSTIK (Gambar 2.7 / T07-T08)
+PS C:\DockerLabStudio> docker compose exec -T web python -c "import socket; print('db=' + socket.gethostbyname('db'))"
+db=172.20.0.2
+PS C:\DockerLabStudio> docker compose exec -T web python -c "import os,mysql.connector; c=mysql.connector.connect(host=os.getenv('DB_HOST','db'),port=int(os.getenv('DB_PORT','3306')),user=os.getenv('DB_USER'),password=os.getenv('DB_PASSWORD'),database=os.getenv('DB_NAME'),connection_timeout=4); c.close(); print('MYSQL_CONNECT_OK')"
+MYSQL_CONNECT_OK
+PS C:\DockerLabStudio> docker volume ls --filter "label=com.docker.compose.project=flask-mysql-docker-lab"
+DRIVER    VOLUME NAME
+local     flask-mysql-docker-lab_dbdata
+PS C:\DockerLabStudio> docker network ls --filter "label=com.docker.compose.project=flask-mysql-docker-lab"
+NETWORK ID     NAME                                  DRIVER    SCOPE
+a8b31e2c4d51   flask-mysql-docker-lab_appnet          bridge    local
+
+H. VALIDASI INPUT (Gambar 2.8 / T10)
+Kirim satu data dengan NIM unik melalui form POST. Kirim NIM sama lagi; respons halaman seharusnya menampilkan "NIM tersebut sudah terdaftar". Kirim nama dan NIM kosong; respons halaman seharusnya menampilkan "Nama dan NIM wajib diisi". Bersihkan record uji setelah verifikasi.
+
+I. JALANKAN SEMUA TES DARI TERMINAL (Gambar 2.9)
+PS C:\DockerLabStudio> .\uji-semua-tes.ps1
+Docker Lab Studio - Test Center (ALL)
+Run ID   : 20261020-231455
+Mode     : ALL_NON_DESTRUCTIVE
+Total    : 10
+PASS     : 9
+FAIL     : 0
+SKIPPED  : 1
+T01 PASS     Prasyarat & konfigurasi
+T02 PASS     Build & startup service
+T03 PASS     Create, read & delete mahasiswa
+T04 PASS     Persistensi named volume
+T05 PASS     Pemulihan MySQL
+T06 SKIPPED  Reset volume database
+T07 PASS     Network internal & koneksi DB
+T08 PASS     Snapshot diagnostik
+T09 PASS     Port & storage configuration
+T10 PASS     Validasi input & NIM duplikat
+Laporan JSON: reports\test-report-20261020-231455.json
+Ekspor HTML/CSV/JSON juga tersedia di dashboard > Reports & evidence.
+
+J. RESET VOLUME MANUAL (Gambar 2.10; OPSIONAL, TERPISAH DARI JALANKAN SEMUA TES)
+PERINGATAN: perintah ini menghapus semua data di named volume database proyek.
+Jalankan hanya setelah backup dan setelah bukti persistensi T04 disimpan.
+Pilih salah satu cara: reset manual berikut ATAU jalankan T06 individual dari Test Center.
+Jangan menjalankan keduanya berurutan kecuali memang ingin melakukan reset dua kali.
+
+PS C:\DockerLabStudio> docker compose down -v
+[+] Running 4/4
+ ✔ Container lab-flask-web Removed
+ ✔ Container lab-mysql-db Removed
+ ✔ Network flask-mysql-docker-lab_appnet Removed
+ ✔ Volume flask-mysql-docker-lab_dbdata Removed
+PS C:\DockerLabStudio> docker compose up -d
+[+] Running 4/4
+ ✔ Network flask-mysql-docker-lab_appnet Created
+ ✔ Volume "flask-mysql-docker-lab_dbdata" Created
+ ✔ Container lab-mysql-db Started
+ ✔ Container lab-flask-web Started
+PS C:\DockerLabStudio> Invoke-RestMethod 'http://127.0.0.1:5000/health' | Format-List
+status   : ok
+database : connected
+students : 0
+service  : flask-web
+
+Untuk menjalankan T06 otomatis melalui controller, gunakan:
+PS C:\DockerLabStudio> .\uji-semua-tes.ps1 -TestId T06 -AllowDestructive
+Ketik RESET untuk melanjutkan: RESET
+Controller akan menjalankan down -v, membuat ulang stack, lalu memeriksa bahwa database kosong.
+
+CATATAN AKHIR
+Semua output sukses di atas adalah contoh yang diharapkan, bukan bukti eksekusi Docker aktual. Versi, waktu, durasi, IP, ID record, dan log dapat berbeda pada laptop.
